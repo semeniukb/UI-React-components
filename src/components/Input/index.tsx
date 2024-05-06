@@ -1,4 +1,4 @@
-import { ComponentProps, forwardRef } from "react";
+import { ComponentProps, forwardRef, useId } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/utils";
 
@@ -17,8 +17,19 @@ const inputStyles = cva([
   "placeholder:text-sm",
 ]);
 
-type InputProps = ComponentProps<"input"> & VariantProps<typeof inputStyles>;
+type InputProps = ComponentProps<"input"> & VariantProps<typeof inputStyles> & { label?: string };
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, ...props }, ref) => {
-  return <input type="text" autoComplete="off" className={cn(inputStyles({ className }))} {...props} ref={ref} />;
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, label, ...props }, ref) => {
+  const id = useId();
+
+  return (
+    <div className="flex flex-col">
+      {label && (
+        <label className="mb-1.5 font-medium text-sm" htmlFor={id}>
+          {label}
+        </label>
+      )}
+      <input id={id} type="text" autoComplete="off" className={cn(inputStyles({ className }))} {...props} ref={ref} />
+    </div>
+  );
 });
