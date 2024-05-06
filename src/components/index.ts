@@ -1,1 +1,3 @@
-export * from "./Button/index.tsx";
+export * from "./Button/index";
+export * from "./Typography/index";
+export * from "./Input/index";
